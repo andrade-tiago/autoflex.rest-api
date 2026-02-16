@@ -36,6 +36,14 @@ public class RawMaterialRepositoryImpl implements RawMaterialRepository {
   }
 
   @Override
+  public List<RawMaterial> getAll() {
+    List<RawMaterialEntity> entities = RawMaterialEntity.listAll();
+    return entities.stream()
+      .map(RawMaterialEntity::toDomain)
+      .toList();
+  }
+
+  @Override
   public boolean deleteById(UUID id) {
     return RawMaterialEntity.deleteById(id);
   }

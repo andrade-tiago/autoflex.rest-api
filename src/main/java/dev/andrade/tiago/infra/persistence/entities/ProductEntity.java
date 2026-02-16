@@ -13,11 +13,17 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "products")
+@Table(
+  name = "products",
+  indexes = {
+    @Index(name = "idx_product_value", columnList = "value")
+  }
+)
 public class ProductEntity extends PanacheEntityBase {
   @Id
   @Column(columnDefinition = "uuid")

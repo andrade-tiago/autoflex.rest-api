@@ -35,4 +35,11 @@ public class RawMaterial {
     this.stock = stock;
   }
   public int getStock() { return this.stock; }
+
+  public void subtractFromStock(int quantity) {
+    setStock(this.stock - quantity);
+  }
+  public void addToStock(int quantity) {
+    setStock(this.stock + quantity);
+  }
 }

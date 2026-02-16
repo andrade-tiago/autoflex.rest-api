@@ -1,5 +1,6 @@
 package dev.andrade.tiago.infra.persistence.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,5 +26,20 @@ public class ProductRepositoryImpl implements ProductRepository {
   public Optional<Product> getById(UUID id) {
     Optional<ProductEntity> entity = ProductEntity.findByIdOptional(id);
     return entity.map(ProductEntity::toDomain);
+  }
+
+  @Override
+  public List<Product> getAllWithCompositionOrderedByValueDesc() {
+    List<ProductEntity> entities = ProductEntity.find("""
+      select distinct p
+      from ProductEntity p
+      left join fetch p.composition c
+      left join fetch c.rawMaterial
+      order by p.value desc
+    """).list();
+
+    return entities.stream()
+      .map(ProductEntity::toDomain)
+      .toList();
   }
 }

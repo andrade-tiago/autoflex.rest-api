@@ -10,5 +10,6 @@ public interface RawMaterialRepository {
   void save(RawMaterial rawMaterial);
   Optional<RawMaterial> getById(UUID id);
   List<RawMaterial> getByIds(List<UUID> ids);
+  List<RawMaterial> getAll();
   boolean deleteById(UUID id);
 }
