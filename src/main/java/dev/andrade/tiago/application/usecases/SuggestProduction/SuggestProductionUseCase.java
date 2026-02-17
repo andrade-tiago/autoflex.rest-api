@@ -32,7 +32,7 @@ public class SuggestProductionUseCase {
 
   @Transactional
   public SuggestProductionOutput execute() {
-    List<Product> products = this.productsRepo.getAllWithCompositionOrderedByValueDesc();
+    List<Product> products = this.productsRepo.getAllOrderedByValueDesc();
     Map<UUID, RawMaterial> materials = getNeededMaterialsMappedById(products);
 
     List<SuggestProductionOutputItem> suggestions = new ArrayList<>();

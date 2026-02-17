@@ -42,7 +42,7 @@ public class ProductRepositoryImpl implements ProductRepository {
   }
 
   @Override
-  public List<Product> getAllWithCompositionOrderedByValueDesc() {
+  public List<Product> getAllOrderedByValueDesc() {
     List<ProductEntity> entities = ProductEntity.find("""
       select distinct p from ProductEntity p
       left join fetch p.composition c

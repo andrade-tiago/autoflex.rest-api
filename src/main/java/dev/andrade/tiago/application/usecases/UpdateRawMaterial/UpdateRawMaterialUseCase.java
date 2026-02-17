@@ -1,6 +1,7 @@
 package dev.andrade.tiago.application.usecases.UpdateRawMaterial;
 
 import dev.andrade.tiago.application.dto.RawMaterialOutput;
+import dev.andrade.tiago.application.exceptions.ResourceNotFoundException;
 import dev.andrade.tiago.domain.models.RawMaterial;
 import dev.andrade.tiago.domain.repositories.RawMaterialRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -18,15 +19,22 @@ public class UpdateRawMaterialUseCase {
 
   @Transactional
   public RawMaterialOutput execute(UpdateRawMaterialInput input) {
-    RawMaterial updatedMaterial = this.repo.update(
-      input.id(),
-      input.name(),
-      input.stock()
-    );
+    RawMaterial material = this.repo.getById(input.id())
+      .orElseThrow(() ->
+        new ResourceNotFoundException(
+          "Material with ID not found",
+          input.id()));
+
+    if (input.name() != null)
+      material.setName(input.name());
+    if (input.stock() != null)
+      material.setStock(input.stock());
+
+    this.repo.update(material);
     return new RawMaterialOutput(
-      updatedMaterial.getId(),
-      updatedMaterial.getName(),
-      updatedMaterial.getStock()
+      material.getId(),
+      material.getName(),
+      material.getStock()
     );
   }
 }

@@ -8,7 +8,7 @@ import dev.andrade.tiago.domain.models.RawMaterial;
 
 public interface RawMaterialRepository {
   void add(RawMaterial rawMaterial);
-  RawMaterial update(UUID id, String name, Integer stock);
+  void update(RawMaterial rawMaterial);
   Optional<RawMaterial> getById(UUID id);
   List<RawMaterial> getByIds(List<UUID> ids);
   List<RawMaterial> getAll();

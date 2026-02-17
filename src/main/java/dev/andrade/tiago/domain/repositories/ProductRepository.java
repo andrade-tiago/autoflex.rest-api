@@ -10,6 +10,6 @@ public interface ProductRepository {
   void save(Product product);
   Optional<Product> getById(UUID id);
   boolean deleteById(UUID id);
-  List<Product> getAllWithCompositionOrderedByValueDesc();
+  List<Product> getAllOrderedByValueDesc();
   List<Product> getAllOrderedByNameAsc();
 }

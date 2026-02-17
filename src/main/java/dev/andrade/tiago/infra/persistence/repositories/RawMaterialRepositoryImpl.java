@@ -50,20 +50,15 @@ public class RawMaterialRepositoryImpl implements RawMaterialRepository {
   }
 
   @Override
-  public RawMaterial update(UUID id, String name, Integer stock) {
-    RawMaterialEntity entity = RawMaterialEntity.findById(id);
+  public void update(RawMaterial material) {
+    RawMaterialEntity entity = RawMaterialEntity.findById(material.getId());
     if (entity == null)
-      throw new ResourceNotFoundException("Material with ID not found", id);
+      throw new ResourceNotFoundException(
+        "Material with ID not found",
+        material.getId()
+      );
 
-    var domain = entity.toDomain();
-    if (name != null)
-      domain.setName(name);
-    if (stock != null)
-      domain.setStock(stock);
-
-    entity.name = domain.getName();
-    entity.stock = domain.getStock();
-
-    return domain;
+    entity.name = material.getName();
+    entity.stock = material.getStock();
   }
 }
