@@ -1,4 +1,4 @@
-package dev.andrade.tiago.presentation.rest.dto;
+package dev.andrade.tiago.presentation.rest.RawMaterials.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;

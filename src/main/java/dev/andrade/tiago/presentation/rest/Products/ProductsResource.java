@@ -1,4 +1,4 @@
-package dev.andrade.tiago.presentation.rest;
+package dev.andrade.tiago.presentation.rest.Products;
 
 import java.util.UUID;
 
@@ -6,9 +6,9 @@ import dev.andrade.tiago.application.dto.ProductCompositionItemInput;
 import dev.andrade.tiago.application.usecases.CreateProduct.*;
 import dev.andrade.tiago.application.usecases.DeleteProduct.DeleteProductUseCase;
 import dev.andrade.tiago.application.usecases.ListAllProducts.ListAllProductsUseCase;
-import dev.andrade.tiago.presentation.rest.dto.CreateProductRequest;
-import dev.andrade.tiago.presentation.rest.dto.CreateProductResponse;
-import dev.andrade.tiago.presentation.rest.dto.ListAllProductsResponse;
+import dev.andrade.tiago.presentation.rest.Products.dto.CreateProductRequest;
+import dev.andrade.tiago.presentation.rest.Products.dto.CreateProductResponse;
+import dev.andrade.tiago.presentation.rest.Products.dto.ListAllProductsResponse;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;

@@ -1,4 +1,4 @@
-package dev.andrade.tiago.presentation.rest;
+package dev.andrade.tiago.presentation.rest.RawMaterials;
 
 import java.util.UUID;
 
@@ -6,10 +6,10 @@ import dev.andrade.tiago.application.usecases.CreateRawMaterial.*;
 import dev.andrade.tiago.application.usecases.DeleteRawMaterial.DeleteRawMaterialUseCase;
 import dev.andrade.tiago.application.usecases.ListAllMaterials.ListAllMaterialsUseCase;
 import dev.andrade.tiago.application.usecases.UpdateRawMaterial.*;
-import dev.andrade.tiago.presentation.rest.dto.CreateRawMaterialRequest;
-import dev.andrade.tiago.presentation.rest.dto.CreateRawMaterialResponse;
-import dev.andrade.tiago.presentation.rest.dto.ListAllMaterialsResponse;
-import dev.andrade.tiago.presentation.rest.dto.UpdateRawMaterialRequest;
+import dev.andrade.tiago.presentation.rest.RawMaterials.dto.CreateRawMaterialRequest;
+import dev.andrade.tiago.presentation.rest.RawMaterials.dto.CreateRawMaterialResponse;
+import dev.andrade.tiago.presentation.rest.RawMaterials.dto.ListAllMaterialsResponse;
+import dev.andrade.tiago.presentation.rest.RawMaterials.dto.UpdateRawMaterialRequest;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;

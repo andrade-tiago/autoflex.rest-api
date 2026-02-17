@@ -1,4 +1,4 @@
-package dev.andrade.tiago.presentation.rest.dto;
+package dev.andrade.tiago.presentation.rest.Products.dto;
 
 import java.math.BigDecimal;
 import java.util.List;

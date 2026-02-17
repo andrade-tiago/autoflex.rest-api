@@ -1,4 +1,4 @@
-package dev.andrade.tiago.presentation.rest.dto;
+package dev.andrade.tiago.presentation.rest.RawMaterials.dto;
 
 import java.util.UUID;
 
