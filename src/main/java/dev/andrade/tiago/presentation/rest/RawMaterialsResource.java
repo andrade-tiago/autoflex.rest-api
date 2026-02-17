@@ -3,6 +3,7 @@ package dev.andrade.tiago.presentation.rest;
 import java.util.UUID;
 
 import dev.andrade.tiago.application.usecases.CreateRawMaterial.*;
+import dev.andrade.tiago.application.usecases.DeleteRawMaterial.DeleteRawMaterialUseCase;
 import dev.andrade.tiago.application.usecases.ListAllMaterials.ListAllMaterialsUseCase;
 import dev.andrade.tiago.application.usecases.UpdateRawMaterial.*;
 import dev.andrade.tiago.presentation.rest.dto.CreateRawMaterialRequest;
@@ -12,6 +13,7 @@ import dev.andrade.tiago.presentation.rest.dto.UpdateRawMaterialRequest;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.POST;
@@ -28,6 +30,7 @@ public class RawMaterialsResource {
   @Inject ListAllMaterialsUseCase listAllMaterialsUseCase;
   @Inject CreateRawMaterialUseCase createRawMaterialUseCase;
   @Inject UpdateRawMaterialUseCase updateRawMaterialUseCase;
+  @Inject DeleteRawMaterialUseCase deleteRawMaterialUseCase;
 
   @POST
   public Response create(@Valid CreateRawMaterialRequest request) {
@@ -65,5 +68,13 @@ public class RawMaterialsResource {
     var output = this.updateRawMaterialUseCase.execute(input);
 
     return Response.ok(output).build();
+  }
+
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@PathParam("id") UUID materialId) {
+    this.deleteRawMaterialUseCase.execute(materialId);
+
+    return Response.noContent().build();
   }
 }
