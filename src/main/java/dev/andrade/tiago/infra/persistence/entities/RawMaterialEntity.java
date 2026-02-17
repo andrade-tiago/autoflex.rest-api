@@ -14,10 +14,10 @@ import jakarta.persistence.Table;
 public class RawMaterialEntity extends PanacheEntityBase {
   @Id
   @Column(columnDefinition = "uuid")
-  private UUID id;
+  public UUID id;
 
-  private String name;
-  private int stock;
+  public String name;
+  public int stock;
 
   public static RawMaterialEntity fromDomain(RawMaterial domain) {
     RawMaterialEntity entity = new RawMaterialEntity();

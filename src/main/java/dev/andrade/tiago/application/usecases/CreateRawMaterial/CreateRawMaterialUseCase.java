@@ -22,7 +22,7 @@ public class CreateRawMaterialUseCase {
       input.stock()
     );
 
-    this.repo.save(rawMaterial);
+    this.repo.add(rawMaterial);
 
     return rawMaterial.getId();
   }

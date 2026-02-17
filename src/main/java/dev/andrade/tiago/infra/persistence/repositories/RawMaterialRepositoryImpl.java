@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import dev.andrade.tiago.application.exceptions.ResourceNotFoundException;
 import dev.andrade.tiago.domain.models.RawMaterial;
 import dev.andrade.tiago.domain.repositories.RawMaterialRepository;
 import dev.andrade.tiago.infra.persistence.entities.RawMaterialEntity;
@@ -12,7 +13,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class RawMaterialRepositoryImpl implements RawMaterialRepository {
   @Override
-  public void save(RawMaterial rawMaterial) {
+  public void add(RawMaterial rawMaterial) {
     RawMaterialEntity entity = RawMaterialEntity.fromDomain(rawMaterial);
     entity.persist();
   }
@@ -46,5 +47,23 @@ public class RawMaterialRepositoryImpl implements RawMaterialRepository {
   @Override
   public boolean deleteById(UUID id) {
     return RawMaterialEntity.deleteById(id);
+  }
+
+  @Override
+  public RawMaterial update(UUID id, String name, Integer stock) {
+    RawMaterialEntity entity = RawMaterialEntity.findById(id);
+    if (entity == null)
+      throw new ResourceNotFoundException("Material with ID not found", id);
+
+    var domain = entity.toDomain();
+    if (name != null)
+      domain.setName(name);
+    if (stock != null)
+      domain.setStock(stock);
+
+    entity.name = domain.getName();
+    entity.stock = domain.getStock();
+
+    return domain;
   }
 }
