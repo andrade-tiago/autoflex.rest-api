@@ -4,17 +4,19 @@ import java.util.UUID;
 
 import dev.andrade.tiago.application.dto.ProductCompositionItemInput;
 import dev.andrade.tiago.application.usecases.CreateProduct.*;
+import dev.andrade.tiago.application.usecases.DeleteProduct.DeleteProductUseCase;
 import dev.andrade.tiago.application.usecases.ListAllProducts.ListAllProductsUseCase;
 import dev.andrade.tiago.presentation.rest.dto.CreateProductRequest;
 import dev.andrade.tiago.presentation.rest.dto.CreateProductResponse;
 import dev.andrade.tiago.presentation.rest.dto.ListAllProductsResponse;
-import io.quarkus.logging.Log;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -24,12 +26,11 @@ import jakarta.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class ProductsResource {
   @Inject CreateProductUseCase createProductUseCase;
+  @Inject DeleteProductUseCase deleteProductUseCase;
   @Inject ListAllProductsUseCase listAllProductsUseCase;
 
   @POST
   public Response create(@Valid CreateProductRequest request) {
-    Log.debug(request);
-
     var input = new CreateProductInput(
       request.name(),
       request.value(),
@@ -47,6 +48,13 @@ public class ProductsResource {
     return Response.status(Response.Status.CREATED)
       .entity(response)
       .build();
+  }
+
+  @DELETE
+  @Path("/{id}")
+  public Response delete(@PathParam("id") UUID productId) {
+    this.deleteProductUseCase.execute(productId);
+    return Response.noContent().build();
   }
 
   @GET
