@@ -11,4 +11,5 @@ public interface ProductRepository {
   Optional<Product> getById(UUID id);
   boolean deleteById(UUID id);
   List<Product> getAllWithCompositionOrderedByValueDesc();
+  List<Product> getAllOrderedByNameAsc();
 }

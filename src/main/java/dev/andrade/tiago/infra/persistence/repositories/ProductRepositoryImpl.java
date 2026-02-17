@@ -29,10 +29,23 @@ public class ProductRepositoryImpl implements ProductRepository {
   }
 
   @Override
+  public List<Product> getAllOrderedByNameAsc() {
+    List<ProductEntity> entities = ProductEntity.find("""
+      select distinct p from ProductEntity p
+      left join fetch p.composition c
+      left join fetch c.rawMaterial
+      order by p.name asc
+    """).list();
+
+    return entities.stream()
+      .map(ProductEntity::toDomain)
+      .toList();
+  }
+
+  @Override
   public List<Product> getAllWithCompositionOrderedByValueDesc() {
     List<ProductEntity> entities = ProductEntity.find("""
-      select distinct p
-      from ProductEntity p
+      select distinct p from ProductEntity p
       left join fetch p.composition c
       left join fetch c.rawMaterial
       order by p.value desc

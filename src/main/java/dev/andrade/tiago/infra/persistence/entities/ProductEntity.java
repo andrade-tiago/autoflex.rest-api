@@ -21,7 +21,8 @@ import jakarta.persistence.Table;
 @Table(
   name = "products",
   indexes = {
-    @Index(name = "idx_product_value", columnList = "value")
+    @Index(name = "idx_product_value", columnList = "value"),
+    @Index(name = "idx_product_name", columnList = "name")
   }
 )
 public class ProductEntity extends PanacheEntityBase {

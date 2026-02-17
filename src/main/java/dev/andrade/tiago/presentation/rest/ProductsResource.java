@@ -3,14 +3,16 @@ package dev.andrade.tiago.presentation.rest;
 import java.util.UUID;
 
 import dev.andrade.tiago.application.dto.ProductCompositionItemInput;
-import dev.andrade.tiago.application.usecases.CreateProduct.CreateProductInput;
-import dev.andrade.tiago.application.usecases.CreateProduct.CreateProductUseCase;
+import dev.andrade.tiago.application.usecases.CreateProduct.*;
+import dev.andrade.tiago.application.usecases.ListAllProducts.ListAllProductsUseCase;
 import dev.andrade.tiago.presentation.rest.dto.CreateProductRequest;
 import dev.andrade.tiago.presentation.rest.dto.CreateProductResponse;
+import dev.andrade.tiago.presentation.rest.dto.ListAllProductsResponse;
 import io.quarkus.logging.Log;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -21,8 +23,8 @@ import jakarta.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ProductsResource {
-  @Inject
-  CreateProductUseCase createProductUseCase;
+  @Inject CreateProductUseCase createProductUseCase;
+  @Inject ListAllProductsUseCase listAllProductsUseCase;
 
   @POST
   public Response create(@Valid CreateProductRequest request) {
@@ -45,5 +47,13 @@ public class ProductsResource {
     return Response.status(Response.Status.CREATED)
       .entity(response)
       .build();
+  }
+
+  @GET
+  public Response getAll() {
+    var output = this.listAllProductsUseCase.execute();
+
+    var response = new ListAllProductsResponse(output.data());
+    return Response.ok(response).build();
   }
 }
