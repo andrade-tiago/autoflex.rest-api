@@ -9,7 +9,7 @@ public class Product {
   private final UUID id;
   private String name;
   private BigDecimal value;
-  private final Map<UUID, ProductCompositionItem> composition = new HashMap<>();
+  private Map<UUID, ProductCompositionItem> composition = new HashMap<>();
 
   public Product(UUID id, String name, BigDecimal value) {
     this.id = id;
@@ -45,12 +45,15 @@ public class Product {
   public Map<UUID, ProductCompositionItem> getComposition() {
     return Map.copyOf(this.composition);
   }
-  public void setCompositionItem(RawMaterial rawMaterial, int quantity) {
-    this.composition.put(rawMaterial.getId(),
-      new ProductCompositionItem(rawMaterial, quantity)
+  public void setCompositionItem(ProductCompositionItem item) {
+    this.composition.put(item.getRawMaterialId(), item);
+  }
+  public void setCompositionItem(UUID materialId, int requiredQuantity) {
+    this.composition.put(materialId,
+      new ProductCompositionItem(materialId, requiredQuantity)
     );
   }
-  public void removeCompositionItem(RawMaterial rawMaterial) {
-    this.composition.remove(rawMaterial.getId());
+  public ProductCompositionItem removeCompositionItem(UUID rawMaterialId) {
+    return this.composition.remove(rawMaterialId);
   }
 }

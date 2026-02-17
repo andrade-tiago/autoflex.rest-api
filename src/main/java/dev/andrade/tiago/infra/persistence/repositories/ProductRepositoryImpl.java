@@ -33,7 +33,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     List<ProductEntity> entities = ProductEntity.find("""
       select distinct p from ProductEntity p
       left join fetch p.composition c
-      left join fetch c.rawMaterial
       order by p.name asc
     """).list();
 
@@ -47,7 +46,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     List<ProductEntity> entities = ProductEntity.find("""
       select distinct p from ProductEntity p
       left join fetch p.composition c
-      left join fetch c.rawMaterial
       order by p.value desc
     """).list();
 

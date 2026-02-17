@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class ProductCompositionItemEntityId implements Serializable {
+  @Column(name = "product_id")
   public UUID productId;
+
+  @Column(name = "raw_material_id")
   public UUID rawMaterialId;
 
   @Override

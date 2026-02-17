@@ -44,10 +44,7 @@ public class ProductEntity extends PanacheEntityBase {
     var product = new Product(id, name, value);
 
     for (ProductCompositionItemEntity item : this.composition) {
-      product.setCompositionItem(
-        item.rawMaterial.toDomain(),
-        item.requiredQuantity
-      );
+      product.setCompositionItem(item.toDomain());
     }
     return product;
   }
@@ -60,15 +57,13 @@ public class ProductEntity extends PanacheEntityBase {
 
     var items = domain.getComposition().values();
     for (ProductCompositionItem item : items) {
+      var itemEntityId = new ProductCompositionItemEntityId();
+      itemEntityId.productId = domain.getId();
+      itemEntityId.rawMaterialId = item.getRawMaterialId();
+
       var itemEntity = new ProductCompositionItemEntity();
-
-      var itemEntityID = new ProductCompositionItemEntityId();
-      itemEntityID.productId = domain.getId();
-      itemEntityID.rawMaterialId = item.getRawMaterial().getId();
-
-      itemEntity.id = itemEntityID;
+      itemEntity.id = itemEntityId;
       itemEntity.product = entity;
-      itemEntity.rawMaterial = RawMaterialEntity.fromDomain(item.getRawMaterial());
       itemEntity.requiredQuantity = item.getRequiredQuantity();
 
       entity.composition.add(itemEntity);

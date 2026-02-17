@@ -56,7 +56,7 @@ public class CreateProductUseCase {
         continue;
       }
       product.setCompositionItem(
-        material,
+        item.rawMaterialID(),
         item.requiredQuantity()
       );
     }

@@ -48,7 +48,7 @@ public class ListAllProductsUseCase {
     ProductCompositionItem item
   ) {
     return new ProductCompositionItemOutput(
-      item.getRawMaterial().getId(),
+      item.getRawMaterialId(),
       item.getRequiredQuantity()
     );
   }

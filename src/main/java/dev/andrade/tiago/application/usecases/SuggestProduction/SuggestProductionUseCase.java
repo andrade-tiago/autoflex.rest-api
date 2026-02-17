@@ -2,38 +2,44 @@ package dev.andrade.tiago.application.usecases.SuggestProduction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import dev.andrade.tiago.domain.models.Product;
 import dev.andrade.tiago.domain.models.RawMaterial;
 import dev.andrade.tiago.domain.repositories.ProductRepository;
+import dev.andrade.tiago.domain.repositories.RawMaterialRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class SuggestProductionUseCase {
   private ProductRepository productsRepo;
+  private RawMaterialRepository materialsRepo;
 
   public SuggestProductionUseCase(
-    ProductRepository productsRepo
+    ProductRepository productsRepo,
+    RawMaterialRepository materialsRepo
   ) {
     this.productsRepo = productsRepo;
+    this.materialsRepo = materialsRepo;
   }
 
   @Transactional
   public SuggestProductionOutput execute() {
-    List<SuggestProductionOutputItem> suggestions = new ArrayList<>();
-
     List<Product> products = this.productsRepo.getAllWithCompositionOrderedByValueDesc();
-    Map<UUID, RawMaterial> materials = getAllMaterialsMappedById(products);
+    Map<UUID, RawMaterial> materials = getNeededMaterialsMappedById(products);
 
+    List<SuggestProductionOutputItem> suggestions = new ArrayList<>();
     for (var product : products) {
       int quantity = maxProductQuantityThatCanBeProduced(product, materials);
 
-      if (quantity <= 0)
+      if (quantity == 0)
         continue;
 
       updateMaterialLocalInventory(product, quantity, materials);
@@ -53,27 +59,28 @@ public class SuggestProductionUseCase {
       .map(SuggestProductionOutputItem::totalValue)
       .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-    return new SuggestProductionOutput(
-      totalValue,
-      suggestions
-    );
+    return new SuggestProductionOutput(totalValue, suggestions);
   }
 
-  private Map<UUID, RawMaterial> getAllMaterialsMappedById(
+  private Map<UUID, RawMaterial> getNeededMaterialsMappedById(
     List<Product> products
   ) {
-    Map<UUID, RawMaterial> materials = new HashMap<>();
-
-    for (var product : products)
-    {
-      for (var item : product.getComposition().values())
-      {
-        var material = item.getRawMaterial();
-
-        materials.putIfAbsent(material.getId(), material);
-      }
+    Set<UUID> materialsNeeded = new HashSet<>();
+    for (var product : products) {
+      materialsNeeded.addAll(
+        product.getComposition().keySet()
+      );
     }
-    return materials;
+
+    List<RawMaterial> materials = this.materialsRepo.getByIds(
+      materialsNeeded.stream().toList()
+    );
+    return materials.stream().collect(
+      Collectors.toMap(
+        RawMaterial::getId,
+        Function.identity()
+      )
+    );
   }
 
   private int maxProductQuantityThatCanBeProduced(
@@ -84,7 +91,7 @@ public class SuggestProductionUseCase {
 
     for (var item : product.getComposition().values()) {
       RawMaterial material = materials.get(
-        item.getRawMaterial().getId()
+        item.getRawMaterialId()
       );
 
       int quantity =
@@ -102,7 +109,7 @@ public class SuggestProductionUseCase {
   ) {
     for (var item : product.getComposition().values()) {
       RawMaterial material = materialsInStock.get(
-        item.getRawMaterial().getId()
+        item.getRawMaterialId()
       );
 
       material.subtractFromStock(

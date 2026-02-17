@@ -3,6 +3,7 @@ package dev.andrade.tiago.infra.persistence.entities;
 import dev.andrade.tiago.domain.models.ProductCompositionItem;
 import dev.andrade.tiago.infra.persistence.types.ProductCompositionItemEntityId;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -21,16 +22,12 @@ public class ProductCompositionItemEntity extends PanacheEntityBase {
   @JoinColumn(name = "product_id")
   public ProductEntity product;
 
-  @ManyToOne
-  @MapsId("rawMaterialId")
-  @JoinColumn(name = "raw_material_id")
-  public RawMaterialEntity rawMaterial;
-
+  @Column(name = "required_quantity")
   public int requiredQuantity;
 
   public ProductCompositionItem toDomain() {
     return new ProductCompositionItem(
-      this.rawMaterial.toDomain(),
+      this.id.rawMaterialId,
       this.requiredQuantity
     );
   }

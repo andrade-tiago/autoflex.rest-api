@@ -1,15 +1,17 @@
 package dev.andrade.tiago.domain.models;
 
+import java.util.UUID;
+
 public class ProductCompositionItem {
-  private final RawMaterial rawMaterial;
+  private final UUID rawMaterialId;
   private int requiredQuantity;
 
-  public ProductCompositionItem(RawMaterial rawMaterial, int requiredQuantity) {
-    this.rawMaterial = rawMaterial;
+  public ProductCompositionItem(UUID rawMaterialId, int requiredQuantity) {
+    this.rawMaterialId = rawMaterialId;
     this.setRequiredQuantity(requiredQuantity);
   }
 
-  public RawMaterial getRawMaterial() { return this.rawMaterial; }
+  public UUID getRawMaterialId() { return this.rawMaterialId; }
 
   public void setRequiredQuantity(int quantity) {
     if (quantity <= 0)
