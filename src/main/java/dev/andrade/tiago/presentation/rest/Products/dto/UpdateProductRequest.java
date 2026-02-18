@@ -4,18 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import dev.andrade.tiago.application.dto.ProductCompositionItemInput;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 
-public record CreateProductRequest(
-  @NotBlank
+public record UpdateProductRequest(
   String name,
-
-  @NotNull
-  @PositiveOrZero
   BigDecimal value,
-
-  @NotNull
   List<ProductCompositionItemInput> composition
 ) {}

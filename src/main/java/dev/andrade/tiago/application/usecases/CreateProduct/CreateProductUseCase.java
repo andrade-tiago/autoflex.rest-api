@@ -36,7 +36,7 @@ public class CreateProductUseCase {
 
     List<UUID> materialIDs = input.composition()
       .stream()
-      .map(item -> item.rawMaterialID())
+      .map(item -> item.rawMaterialId())
       .toList();
     
     List<RawMaterial> materials = this.materialRepo.getByIds(materialIDs);
@@ -49,14 +49,14 @@ public class CreateProductUseCase {
 
     List<UUID> materialsNotFoundUUIDs = new ArrayList<>();
     for (var item : input.composition()) {
-      var material = materialsByID.get(item.rawMaterialID());
+      var material = materialsByID.get(item.rawMaterialId());
 
       if (material == null) {
-        materialsNotFoundUUIDs.add(item.rawMaterialID());
+        materialsNotFoundUUIDs.add(item.rawMaterialId());
         continue;
       }
       product.setCompositionItem(
-        item.rawMaterialID(),
+        item.rawMaterialId(),
         item.requiredQuantity()
       );
     }

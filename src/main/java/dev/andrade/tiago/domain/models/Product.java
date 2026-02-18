@@ -2,6 +2,7 @@ package dev.andrade.tiago.domain.models;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -55,5 +56,11 @@ public class Product {
   }
   public ProductCompositionItem removeCompositionItem(UUID rawMaterialId) {
     return this.composition.remove(rawMaterialId);
+  }
+  public void replaceComposition(List<ProductCompositionItem> items) {
+    this.composition.clear();
+    for (var item : items) {
+      this.setCompositionItem(item);
+    }
   }
 }
