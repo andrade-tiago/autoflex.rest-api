@@ -1,4 +1,4 @@
-package dev.andrade.tiago.presentation.rest.Products.dto;
+package dev.andrade.tiago.presentation.rest.resources.Products.dto;
 
 import java.util.UUID;
 

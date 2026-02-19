@@ -1,4 +1,4 @@
-package dev.andrade.tiago.presentation.rest.RawMaterials.dto;
+package dev.andrade.tiago.presentation.rest.resources.RawMaterials.dto;
 
 import java.util.List;
 

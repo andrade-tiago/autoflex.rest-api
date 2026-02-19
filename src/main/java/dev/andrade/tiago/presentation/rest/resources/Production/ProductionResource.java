@@ -1,10 +1,10 @@
-package dev.andrade.tiago.presentation.rest.Production;
+package dev.andrade.tiago.presentation.rest.resources.Production;
 
 import java.util.List;
 
 import dev.andrade.tiago.application.usecases.SuggestProduction.SuggestProductionUseCase;
-import dev.andrade.tiago.presentation.rest.Production.dto.SuggestProductionResponse;
-import dev.andrade.tiago.presentation.rest.Production.dto.SuggestProductionResponseItem;
+import dev.andrade.tiago.presentation.rest.resources.Production.dto.SuggestProductionResponse;
+import dev.andrade.tiago.presentation.rest.resources.Production.dto.SuggestProductionResponseItem;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
